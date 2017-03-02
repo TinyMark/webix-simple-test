@@ -1,0 +1,200 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="../node_modules/webix/webix.css" type="text/css">
+    <script src="../node_modules/webix/webix.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <script type="text/javascript" charset="utf-8">
+        // 当页面加载完成才执行：
+        // webix.ready(function () {
+        //     webix.ui({
+        //         //    doSomething...
+        //     });
+        // });
+
+        // 布局内容如下
+
+        // 一个电影列表
+        // 一个用来添加电影信息的表单
+        // 一个操作增加删除的工具栏
+
+        // webix.ui({
+        //     // 如果让两行占满整个页面，只需要删除width属性就可以
+        //     width: 500,
+        //     rows: [{
+        //             template: "Row 1"
+        //         }, //1st row
+        //         {
+        //             cols: [{
+        //                     template: "Column 1"
+        //                 }, //1st column
+        //                 {
+        //                     template: "Column 2"
+        //                 } //2nd column
+        //             ]
+        //         },
+        //         {
+        //             template: "Row 2"
+        //         } //2nd row
+        //     ]
+        // })
+
+
+        webix.ui({
+            width: 500,
+            rows: [{
+                    view: "toolbar",
+                    elements: [{
+                            view: "button",
+                            value: "Add",
+                            width: 70,
+                            click: "add_row"
+                        },
+                        {
+                            view: "button",
+                            value: "Delete",
+                            width: 70,
+                            click: "delete_row"
+                        },
+                        {
+                            view: "button",
+                            value: "Update",
+                            width: 70,
+                            click: "update_row"
+                        },
+                        {
+                            view: "button",
+                            value: "Clear Form",
+                            width: 100,
+                            click: "$$('myform').clear())"
+                        }
+                    ]
+                },
+                {
+                    height: 400,
+                    cols: [{
+                            view: "form",
+                            id: 'myform',
+                            elements: [{
+                                    view: "text",
+                                    name: 'title',
+                                    placeholder: "Title"
+                                },
+                                {
+                                    view: "text",
+                                    name: 'year',
+                                    placeholder: "Year"
+                                }
+                            ]
+                        },
+                        {
+                            view: "list",
+                            id: 'mylist',
+                            template: "#title# - #year#", // which data to show
+                            select: true, //enables selection
+                            height: 400,
+                            data: [{
+                                    id: 1,
+                                    title: "The Shawshank Redemption",
+                                    year: 1994
+                                },
+                                {
+                                    id: 2,
+                                    title: "The Godfather",
+                                    year: 1972
+                                },
+                                {
+                                    id: 3,
+                                    title: "The Godfather: Part II",
+                                    year: 1974
+                                },
+                                {
+                                    id: 4,
+                                    title: "The Good, the Bad and the Ugly",
+                                    year: 1966
+                                },
+                                {
+                                    id: 5,
+                                    title: "My Fair Lady",
+                                    year: 1964
+                                },
+                                {
+                                    id: 6,
+                                    title: "12 Angry Men",
+                                    year: 1957
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+       
+
+        // 第二步：增加删除事件
+        // 选择list中某行，点删除按钮
+
+        function delete_row() {
+            var id = $$("mylist").getSelectedId(); //returns the ID of selected item
+            $$("mylist").remove(id);
+        }
+
+        // 第三步：增加添加事件
+        // 填写表单，点增加按钮将表单中的内容添加到list
+
+        function add_row() {
+            $$("mylist").add({
+                title: $$("myform").getValues().title,
+                year: $$("myform").getValues().year,
+            })
+        }
+
+        // 第四步： 增加更新事件
+        // 首先选择列表， 将列表中的某行的值赋给表单
+
+        $$("mylist").attachEvent("onAfterSelect", function (id) {
+            $$("myform").setValues({
+                title: $$("mylist").getItem(id).title,
+                year: $$("mylist").getItem(id).year
+            });
+        });
+
+        // 然后修改表单数据，点更新按钮，将表单的值返回给list
+
+        function update_row() {
+            var sel = $$("mylist").getSelectedId(); //checks whether the item is selected
+            if (!sel) return; // if not, function execution is stopped
+
+            var value1 = $$('myform').getValues().title;
+            var value2 = $$('myform').getValues().year;
+
+            for (var i = 0; i < sel.length; i++) {
+                var item = $$("mylist").getItem(sel[i]); //for every selected item
+                item.title = value1; //setting values for list item
+                item.year = value2;
+                $$("mylist").updateItem(sel[i], item); //updating
+            }
+        }
+
+        // 第五步：确认窗口
+        // 在删除数据时，需要客户确认删除的数据是否正确，改写一下删除事件
+
+        function delete_row() {
+            var id = $$("mylist").getSelectedId();
+            webix.confirm({
+                title: "Delete",
+                text: "Are you sure you want to delete the selected contact?",
+                callback: function (result) {
+                    if (result) {
+                        $$("mylist").remove(id);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

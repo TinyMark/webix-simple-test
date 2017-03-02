@@ -1,0 +1,218 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="../node_modules/webix/webix.css" type="text/css">
+    <script src="../node_modules/webix/webix.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <script type="text/javascript" charset="utf-8">
+        // 当页面加载完成才执行：
+        // webix.ready(function () {
+        //     webix.ui({
+        //         //    doSomething...
+        //     });
+        // });
+
+        // 布局内容如下
+
+        // 一个电影列表
+        // 一个用来添加电影信息的表单
+        // 一个操作增加删除的工具栏
+
+        //    第一步：入门
+        // 在script中建立一个空白的页面，代码如下
+
+        // webix.ui({
+
+        // });
+
+        // 第二步：编辑行
+        // 把整个页面分成上下两行，上面的行放置操作按钮，下面的行放置内容。设置页面的宽度为500px，代码如下
+
+        // webix.ui({
+        //     width: 500,
+        //     rows: [{
+        //             template: "Row 1"
+        //         }, //1st row
+        //         {
+        //             template: "Row 2"
+        //         } //2nd row
+        //     ]
+        // });
+
+        // 如果让两行占满整个页面，只需要删除width属性就可以了
+        // 第三步：编辑列
+        // 将下面的行也就是Row 2分割成左右两列，左边用来放置表单，用来录入电影信息。右边放置一个列表，用来显示信息内容
+
+        // webix.ui({
+        //     width: 500,
+        //     rows: [{
+        //             template: "Row 1"
+        //         },
+        //         {
+        //             cols: [{
+        //                     template: "Column 1"
+        //                 }, //1st column
+        //                 {
+        //                     template: "Column 2"
+        //                 } //2nd column
+        //             ]
+        //         }
+        //     ]
+        // });
+
+
+        // 第四步：增加操作按钮
+        // 在上面的行中放置一个toolbar工具栏，在工具栏中增加一个增加按钮和一个删除按钮
+        // 给按钮设置值
+        // 给按钮设置宽度属性
+
+        // webix.ui({
+        //     width: 500,
+        //     rows: [{
+        //             view: "toolbar",
+        //             elements: [{
+        //                     view: "button",
+        //                     value: "Add",
+        //                     width: 100
+        //                 },
+        //                 {
+        //                     view: "button",
+        //                     value: "Delete",
+        //                     width: 100
+        //                 }
+        //             ]
+        //         },
+        //         {
+        //             cols: [{
+        //                     template: "Column 1"
+        //                 }, //1st column
+        //                 {
+        //                     template: "Column 2"
+        //                 } //2nd column
+        //             ]
+        //         }
+        //     ]
+        // });
+
+        // 第五步：增加表单
+        // 在页面左下的区域中增加一个表单，表单中包含标题和年份两个属性
+
+        // webix.ui({
+        //     width: 500,
+        //     rows: [{
+        //             view: "toolbar",
+        //             elements: [{
+        //                     view: "button",
+        //                     value: "Add",
+        //                     width: 100
+        //                 },
+        //                 {
+        //                     view: "button",
+        //                     value: "Delete",
+        //                     width: 100
+        //                 }
+        //             ]
+        //         },
+        //         {
+        //             cols: [{
+        //                     view: "form",
+        //                     elements: [{
+        //                             view: "text",
+        //                             placeholder: "Title"
+        //                         },
+        //                         {
+        //                             view: "text",
+        //                             placeholder: "Year"
+        //                         }
+        //                     ]
+        //                 },
+        //                 {
+        //                     template: "Column 2"
+        //                 } //2nd column
+        //             ]
+        //         }
+        //     ]
+        // });
+
+        // 第六步：增加列表
+        // 在页面右下的区域中增加一个电影信息列表
+        // 使用json数据填充列表数据
+        // 显示标题和年份信息
+
+        webix.ui({
+            width: 500,
+            rows: [{
+                    view: "toolbar",
+                    elements: [{
+                            view: "button",
+                            value: "Add",
+                            width: 100
+                        },
+                        {
+                            view: "button",
+                            value: "Delete",
+                            width: 100
+                        }
+                    ]
+                },
+                {
+                    height: 500,
+                    cols: [{
+                            view: "form",
+                            elements: [{
+                                    view: "text",
+                                    placeholder: "Title"
+                                },
+                                {
+                                    view: "text",
+                                    placeholder: "Year"
+                                }
+                            ]
+                        },
+                        {
+                            view: "list",
+                            template: "#title# - #year#", // which data to show
+                            select: true, //enables selection
+                            height: 400,
+                            data: [{
+                                    id: 1,
+                                    title: "The Shawshank Redemption",
+                                    year: 1994
+                                },
+                                {
+                                    id: 2,
+                                    title: "The Godfather",
+                                    year: 1972
+                                },
+                                {
+                                    id: 3,
+                                    title: "The Godfather: Part II",
+                                    year: 1974
+                                },
+                                {
+                                    id: 4,
+                                    title: "The Good, the Bad and the Ugly",
+                                    year: 1966
+                                },
+                                {
+                                    id: 5,
+                                    title: "My Fair Lady",
+                                    year: 1964
+                                },
+                                {
+                                    id: 6,
+                                    title: "12 Angry Men",
+                                    year: 1957
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+    </script>
+</body>
+
+</html>
